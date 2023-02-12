@@ -18,15 +18,15 @@
 						<input type="hidden" class="form-control" name="storeId" id="storeId" value="${store.getStoreId()}"/>
 					<div class="col">
 						<label for="storeName" class="form-label">Edit Store Name</label>
-						<input type="text" class="form-control" name="storeName" id="storeName" value="${store.getStoreName()}" />
+						<input type="text" class="form-control" name="storeName" id="storeName" value="${store.getStoreName()}" readonly/>
 					</div>
 					<div class="col">
 						<label for="storeType" class="form-label" >Edit Store type</label>
-						<input type="text" class="form-control" name="storeType" id="storeType" value="${store.getStoreType()}"/>
+						<input type="text" class="form-control" name="storeType" id="storeType" value="${store.getStoreType()}" readonly/>
 					</div>
 					<div class="col">
 						<label for="storeAddress" class="form-label" >Edit Store Address</label>
-						<input type="text" class="form-control" name="storeAddress" id="storeAddress" value="${store.getStoreAddress()}"/>
+						<input type="text" class="form-control" name="storeAddress" id="storeAddress" value="${store.getStoreAddress()}" readonly/>
 					</div>
 				</div>
 			</div>

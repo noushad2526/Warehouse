@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.google.gson.Gson;
 import com.warehouse.model.Product;
 import com.warehouse.model.Store;
 import com.warehouse.service.ProductService;
 import com.warehouse.service.StoreService;
+
 
 
 @Controller
@@ -27,6 +31,8 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
+
+	private String[] storeNames;
 	
 	//get all products and redirect to home page
 	@RequestMapping("/getAllProducts")
@@ -82,12 +88,21 @@ public class ProductController {
 			return redirectView; 
 		}
 		
-	//to search from the table based on storeName storeType or productName
-	@RequestMapping("/search")
-	public String searchByProductName(@RequestParam(value="storeName") String storeName, @RequestParam(value="storeType") String storeType, @RequestParam(value="productName") String productName, Model m) {
-		List<Product> filteredProduct = productService.searchByProduct(storeName, storeType, productName);
-		m.addAttribute("products", filteredProduct);
-		return "home";
-	}
+		//to search from the table based on storeName storeType or productName
+		@RequestMapping("/search")
+		public String searchByProductName(@RequestParam(value="storeName") String storeName, @RequestParam(value="storeType") String storeType, @RequestParam(value="productName") String productName, Model m) {
+			List<Product> filteredProduct = productService.searchByProduct(storeName, storeType, productName);
+			m.addAttribute("products", filteredProduct);
+			return "home";
+		}
+		
+		//validation --to check duplicate store name
+		@RequestMapping("/duplicateStore")
+		public ResponseEntity<Object> checkDuplicateStoreName() {
+			String[] storeNames = storeService.getStoreNames();
+			Gson gson = new Gson(); 
+			String jsonBookingId = gson.toJson(storeNames); 
+			return new ResponseEntity<Object>(jsonBookingId, HttpStatus.OK); 
+		} 
 	
 }
